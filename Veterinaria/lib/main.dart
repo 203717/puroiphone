@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto/pages/login.dart';
 import 'package:proyecto/screens/onboarding/body_boarding.dart';
 
 
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
        initialRoute:'/' ,
       routes: {
         '/': (context) => BodyBoarding(),
+        '/uwu':((context) => LoginPage())
 
       },
     );

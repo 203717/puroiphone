@@ -13,13 +13,9 @@ class BodyBoarding extends StatefulWidget {
 class BodyBoardingState extends State<BodyBoarding> {
   @override
   Widget build(BuildContext context) {
-    var title = 'Registro';
+    var title = 'Veterinaria';
     return MaterialApp(
-      title: title,
       home: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
         body: Onboarding()
         ),
       );

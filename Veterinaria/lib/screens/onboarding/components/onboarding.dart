@@ -1,12 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:proyecto/pages/login.dart';
 import 'package:proyecto/screens/onboarding/components/content_boarding.dart';
 import 'package:proyecto/screens/onboarding/components/content_page.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});
 
@@ -16,82 +11,56 @@ class Onboarding extends StatefulWidget {
 
 class _OnboardingState extends State<Onboarding> {
   int currentPage = 0;
-  PageController _index = PageController();
-
-  void _siguiente() {
-    if (currentPage < boardingData.length-1) {
-      setState(() {
-        currentPage += 1;
-      });
-      _index.jumpToPage(currentPage);
-    }
-    else{
-      setState(() {
-        currentPage = 0;
-      });
-      _index.jumpToPage(currentPage);
-    }
-  }
-
-  void _volver() {
-    if (currentPage ==0) {
-      setState(() {
-        currentPage =4;
-      });
-      _index.jumpToPage(currentPage);
-    }
-    else{
-      setState(() {
-        currentPage -=1;
-      });
-      _index.jumpToPage(currentPage);
-    }
-  }
-
+  PageController pageController = PageController();
   List<Map<dynamic, dynamic>> boardingData = [
     {
-      'titulo': 'Esparcimiento',
-      'info': 'Brindamos todos los servicios para consentir a tu mascota',
       'image': 'assets/img/B1.png',
+      'title': 'ESPARCIMIENTO',
+      'title2': 'Brindamos todos los servicios para consentir a tu mascota',
     },
     {
-      'titulo': 'ADOPCION',
-      'info':
-          '¿Por que comprar cuando puedes adoptar?',
       'image': 'assets/img/B2.png',
+      'title': 'ADOPCION',
+      'title2': 'nulla faucibus tellus ut odio scelerisque vitae molestie lectus feugiat',
     },
     {
-      'titulo': 'Hospitalidad',
-      'info':
-          'Cuando los perros entrar te dicen wau wau',
       'image': 'assets/img/B3.png',
+      'title': 'HOSPITALIDAD',
+      'title2': 'nulla faucibus tellus ut odio scelerisque vitae molestie lectus feugiat',
     },
     {
-      'titulo': 'Veterinaria',
-      'info':
-          'A nadie le gusta las inyecciones, ay no que feo caso',
       'image': 'assets/img/B4.png',
+      'title': 'VETERINARIA',
+      'title2': 'nulla faucibus tellus ut odio scelerisque vitae molestie lectus feugiat',
     },
     {
-      'titulo': 'Tienda',
-      'info': 'uwu',
       'image': 'assets/img/B5.png',
-    },
+      'title': 'TIENDA',
+      'title2': 'nulla faucibus tellus ut odio scelerisque vitae molestie lectus feugiat',
+    }
   ];
-  
+   void incrementCurrentPage() {
+    if (currentPage < boardingData.length) {
+          setState(() {
+      currentPage += 1;
+    });
+    pageController.jumpToPage(currentPage);
+    } 
+  }
   @override
-  Widget build(BuildContext context) {
+   Widget build(BuildContext context) {
     return SafeArea(
         child: Column(
       children: [
         Expanded(
             flex: 4,
+            child: Container(padding: const EdgeInsets.only(top:30),
             child: PageView.builder(
-              controller: _index,
+              controller: pageController,
               itemBuilder: (context, index) => ContentBoarding(
                 image: boardingData[index]['image'],
-                titulo: boardingData[index]['titulo'],
-                info: boardingData[index]['info'],
+                 titulo: boardingData[index]['title'],
+                info: boardingData[index]['title2'],
               ),
               itemCount: boardingData.length,
               onPageChanged: (value) {
@@ -99,40 +68,73 @@ class _OnboardingState extends State<Onboarding> {
                   currentPage = value;
                 });
               },
-            )),
-        Expanded(
-            flex: 2,child:Container(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 130),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextButton(
-                        child: const Text('Atras'),
-                        style: TextButton.styleFrom(primary: Colors.pink,),
-                        onPressed:_volver, ),
-                      Center(
-                        child: SmoothPageIndicator(
-                          controller: _index,
-                          count: 5,
-                           effect:  ExpandingDotsEffect(
-                            dotColor:  Colors.grey,  
-                            activeDotColor:  Colors.pink  
-                           )
-                        ),
+            ),
+           )
+         ),
+        Expanded(flex: 1, child: Container(
+          child:Column(
+            children: [
+              Padding(padding: const EdgeInsets.only(top: 0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: 
+                    List.generate(
+                      boardingData.length, 
+                      (index) => page(index: index, currentPage: currentPage),
                       ),
-                      TextButton(
-                        child: const Text('Siguiente'),
-                        style: TextButton.styleFrom(primary: Colors.pink,),
-                        onPressed: _siguiente, ),
-                    ],
-                  )
                 ),
-              ],
-            )),
-        ),],
-    ));
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: currentPage == boardingData.length - 1
+                  ? ElevatedButton(onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>  LoginPage())
+                    );
+                  }, style: ElevatedButton.styleFrom(
+                    side: const BorderSide(
+                      width: 2,
+                      color: Color.fromARGB(255, 131, 161, 97), 
+                    ),
+                    backgroundColor: const Color.fromARGB(255, 131, 161, 97),
+                    shadowColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
+                    ),
+                    fixedSize: const Size(290, 45)
+                  ), 
+                  child:const Text('Continua',
+                   style: TextStyle(fontSize: 15, 
+                   fontWeight: FontWeight.bold,
+                   color: Colors.white),
+                  ),
+                  )
+                  : ElevatedButton(onPressed: incrementCurrentPage, style: ElevatedButton.styleFrom(
+                    side: const BorderSide(
+                      width: 2,
+                      color: Color.fromARGB(255, 139, 139, 139),
+                    ),
+                    foregroundColor: const Color.fromARGB(255, 139, 139, 139),
+                    backgroundColor: Colors.white,
+                    shadowColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
+                    ),
+                    fixedSize: const Size(290, 45)
+                  ), 
+                  child:const Text('Siguiente',
+                   style: TextStyle(fontSize: 15,
+                    fontWeight: FontWeight.bold
+                    ),
+                  ),
+            ),
+            
+          ),
+         ],
+        ),
+      )),
+    ],
+   ));
   }
 }
