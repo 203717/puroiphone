@@ -1,124 +1,85 @@
 import 'package:flutter/material.dart';
+import 'package:proyecto/screens/onboarding/body_boarding.dart';
 
-class Login extends StatelessWidget {
-  const Login({super.key});
-  get gender => null;
+class LoginPage extends StatefulWidget {
+  static String tag = 'login-page';
   @override
-  Widget build(BuildContext context) {
-    var title = 'Login';
-    return MaterialApp(
-      title: title,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: Center(
-            child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                image: NetworkImage('https://www.xtrafondos.com/wallpapers/vertical/astronauta-perdido-en-el-espacio-5498.jpg'), fit: BoxFit.cover)),
-              child: Scaffold(
-                backgroundColor: Colors.transparent,
-                body: ListView(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-                      child: Loginuwu(gender: gender),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ),
-        ),
-      );
-  }
+  _LoginPageState createState() => new _LoginPageState();
 }
 
-
-class Loginuwu extends StatelessWidget {
-  const Loginuwu({
-    Key? key,
-    required this.gender,
-  }) : super(key: key);
-
-  final gender;
-
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: NetworkImage('https://www.xtrafondos.com/wallpapers/vertical/astronauta-perdido-en-el-espacio-5498.jpg'), fit: BoxFit.cover)),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 100, left: 30, right: 30),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: 200,
-                    height: 200,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100.0),
-                      child: Image.asset('assets/img/img3.png'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20, bottom: 30),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Correo',
-                        suffixIcon: const Icon(Icons.verified_user),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0)),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 30),
-                    child: TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        labelText: 'Contraseña',
-                        suffixIcon: const Icon(Icons.lock_clock_outlined),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20.0)),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                      ),
-                      onPressed: () {},
-                      child: const Text(
-                        'Iniciar sesion',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      )),
-                  InkWell(
-                    child: const Text(
-                      'Crear cuenta',
-                      style:
-                          TextStyle(color: Color.fromARGB(255, 133, 47, 148)),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const Login()),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
+    final logo = Hero(
+      tag: 'hero',
+      child: CircleAvatar(
+        backgroundColor: Colors.black,
+        radius: 48.0,
+        child: Image.asset('assets/img/B1.png'),
+      ),
+    );
+
+    final email = TextFormField(
+      keyboardType: TextInputType.emailAddress,
+      autofocus: false,
+      initialValue: '203717@ids.com',
+      style: const TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        hintText: 'Correo',
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      ),
+    );
+
+    final password = TextFormField(
+      autofocus: false,
+      initialValue: 'holi:)',
+      obscureText: true,
+      style: const TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        hintText: 'Contrasena',
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+      ),
+    );
+
+    final loginButton = Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: ElevatedButton(
+        
+        onPressed: () {
+          Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>  BodyBoarding())
+                    );
+        },
+        child: Text('Log In', style: TextStyle(color: Colors.white)),
+      ),
+    );
+
+    final forgotLabel = TextButton(
+      child: Text(
+        'Forgot password?',
+        style: TextStyle(color: Colors.black54),
+      ),
+      onPressed: () {},
+    );
+
+    return Scaffold(
+      backgroundColor: Colors.cyan,
+      body: Center(
+        child: ListView(
+          shrinkWrap: true,
+          padding: EdgeInsets.only(left: 24.0, right: 24.0),
+          children: <Widget>[
+            logo,
+            SizedBox(height: 48.0),
+            email,
+            SizedBox(height: 8.0),
+            password,
+            SizedBox(height: 24.0),
+            loginButton,
+            forgotLabel
           ],
         ),
       ),
